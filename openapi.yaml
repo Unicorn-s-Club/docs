@@ -1,0 +1,271 @@
+openapi: 3.1.0
+info:
+  title: API Unicornify
+  description: API para gerenciamento de produtos, categorias e pedidos na Unicornify.
+  version: 1.0.0
+servers:
+  - url: https://api.unicornify.com.br/api
+    description: Servidor de produção.
+paths:
+  /public/v1/products:
+    post:
+      summary: Criar um novo produto
+      description: Cria um novo produto com base nos dados fornecidos.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                  description: Nome do produto
+                  example: 'Produto Exemplo'
+                cover:
+                  type: string
+                  description: Url da imagem de capa do produto
+                  example: 'https://example.com/imagem.jpg'
+                sale_page:  
+                  type: string
+                  description: Url da página de vendas do produto
+                  example: 'https://example.com/pagina-de-vendas'
+                payment_type:
+                  type: number
+                  description: Tipo de pagamento do produto, 1 para pagamento único, 2 para recorrencia.
+                  enum: [1, 2]
+                  example: 2
+                operation_type:
+                  type: number
+                  description: Tipo de operação do produto, 1 para produto principal, 2 para orderbump, 3 para upsell.
+                  enum: [1, 2, 3]
+                  example: 1
+                interval:
+                  type: string
+                  description: Intervalo de recorrência do produto, se aplicável.
+                  enum: ['weekly', 'monthly','quarterly','semi-annual', 'yearly']
+                  example: 'monthly'
+                product_type:
+                  type: string
+                  description: Tipo de produto, se aplicável.
+                  enum: ['digital', 'fisico']
+                  example: 'digital'
+                delivery_type:
+                  type: number
+                  description: Tipo de entrega do produto, 1 = Área da membros da plataforma, 2 = Área de membros externa
+                  enum: [1, 2]
+                  example: 1
+                id_category:
+                  type: number
+                  description: ID da categoria do produto. veja a rota public/v1/products/categories
+                  example: 1
+                amount:
+                  type: number
+                  description: Valor do produto em centavos.
+                  example: 1999
+                
+    get:
+      summary: Listar Produtos
+      description: Lista todos os produtos cadastrados.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+  /public/v1/products/{hash}:
+    put:
+      summary: Editar um produto
+      description: Editar um produto já existente com base no hash fornecido.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash do produto a ser buscado.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Nome do produto
+                      example: 'Produto 1'
+                    cover:
+                      type: string
+                      description: Url da imagem de capa do produto
+                      example: 'https://example.com/imagem.jpg'
+                    sale_page:
+                      type: string
+                      description: Url da página de vendas do produto
+                      example: 'https://example.com/pagina-de-vendas'
+    get:
+      summary: Consultar de produtos
+      description: Consulta um produto específico com base no hash fornecido.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash do produto a ser buscado.
+          required: true
+          schema:
+            type: string
+  /public/v1/products/categories:
+    get:
+      summary: Listar categorias dos Produtos
+      description: Lista todas as categorias possiveis para um produto.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+  /public/v1/products/{hash}/offers:
+    post:
+      summary: Criar uma oferta para um produto
+      description: Cria uma nova oferta para um produto existente com base no hash fornecido.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash do produto a ser buscado.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  type: object
+                  properties:
+                    title:
+                      type: string
+                      description: Nome da oferta
+                      example: 'Oferta Especial de Verão'
+                    cover:
+                      type: string
+                      description: Url da imagem de capa do produto
+                      example: 'https://example.com/imagem.jpg'
+                    amount:
+                      type: number
+                      description: Valor da oferta em centavos
+                      example: 9999
+  /public/v1/transactions:
+    post:
+      summary: Criar um transação
+      description: Cria uma nova transação de compra com base nos dados fornecidos.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/Produto'
+    get:
+      summary: Listar transações
+      description: Lista todas as transações feitas.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+  /public/v1/transactions/{hash}:
+    get:
+      summary: Consultar uma transação
+      description: Consulta uma transação específica com base no hash fornecido.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash do produto a ser buscado.
+          required: true
+          schema:
+            type: string
+  
+components:
+  schemas:
+    Produto:
+      type: object
+      description: Dados para criar um novo produto.
+      required: ['title', 'cover', 'amount']
+      additionalProperties: false
+      properties:
+        title:
+          type: string
+          description: Nome do produto
+          example: 'Plano de Assinatura Mensal'
+        cover:
+          type: string
+          description: Url da imagem de capa do produto
+          example: 'https://example.com/imagem.jpg'
+        sale_page:
+          type: string
+          description: Url da página de vendas do produto
+          example: 'https://example.com/pagina-de-vendas'
+        payment_type: 
+          type: nummber
+          description: Tipo de pagamento do produto, 1 para pagamento único, 2 para assinatura mensal, 3 para assinatura anual
+          enum: [0, 1, 2]
+          example: 1
+        createdAt:
+          type: string
+          format: date-time
+          description: Data de criação do cupom.
+          example: '2025-05-25T23:43:25.250Z'
+        updatedAt:
+          type: string
+          format: date-time
+          description: Data de atualização do cupom.
+          example: '2025-05-25T23:43:25.250Z'

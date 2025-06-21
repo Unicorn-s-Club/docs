@@ -1,0 +1,199 @@
+openapi: 3.1.0
+info:
+  title: API Unicornify
+  description: API para gerenciamento de produtos, categorias e pedidos na Unicornify.
+  version: 1.0.0
+servers:
+  - url: https://api.unicornify.com.br/api
+    description: Servidor de produção.
+paths:
+  /public/v1/products:
+    post:
+      summary: Criar um novo produto
+      description: Cria um novo produto com base nos dados fornecidos.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                data:
+                  $ref: '#/components/schemas/Produto'
+                error:
+                  type: null
+    get:
+      summary: Listar Produtos
+      description: Lista todos os produtos cadastrados.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        
+        
+      responses:
+        '200':
+          description: Lista de clientes retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: Lista de clientes.
+                    items:
+                      $ref: '#/components/schemas/Produto'
+                  error:
+                    type: null
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Unauthenticated'
+                  status:
+                    type: integer
+                    description: Código de status HTTP da resposta.
+                    example: 401
+  /public/v1/products/{hash}:
+    get:
+      summary: Consultar de produtos
+      description: Consulta um produto específico com base no hash fornecido.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        - name: hash
+          in: path
+          description: Hash do produto a ser buscado.
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Lista de clientes retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: Lista de clientes.
+                    items:
+                      $ref: '#/components/schemas/Produto'
+                  error:
+                    type: null
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Unauthenticated'
+                  status:
+                    type: integer
+                    description: Código de status HTTP da resposta.
+                    example: 401
+  /public/v1/products/categories:
+    get:
+      summary: Listar categorias dos Produtos
+      description: Lista todas as categorias possiveis para um produto.
+      parameters:
+        - name: api_token
+          in: query
+          description: Token da API para autenticação.
+          required: true
+          schema:
+            type: string
+        
+        
+      responses:
+        '200':
+          description: Lista de clientes retornada com sucesso.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  data:
+                    type: array
+                    description: Lista de clientes.
+                    items:
+                      $ref: '#/components/schemas/Produto'
+                  error:
+                    type: null
+        '401':
+          description: Não autorizado. Falha na autenticação.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    description: Mensagem de erro descrevendo o motivo da falha na autenticação.
+                    example: 'Unauthenticated'
+                  status:
+                    type: integer
+                    description: Código de status HTTP da resposta.
+                    example: 401
+  components:
+    schemas:
+      Produto:
+        type: object
+        description: Dados para criar um novo produto.
+        required: ['title', 'cover', 'amount']
+        additionalProperties: true
+        properties:
+          title:
+            type: string
+            description: Nome do produto
+            example: 'Plano de Assinatura Mensal'
+          cover:
+            type: string
+            description: Url da imagem de capa do produto
+            example: 'https://example.com/imagem.jpg'
+          sale_page:
+            type: string
+            description: Url da página de vendas do produto
+            example: 'https://example.com/pagina-de-vendas'
+          payment_type: 
+            type: nummber
+            description: Tipo de pagamento do produto, 1 para pagamento único, 2 para assinatura mensal, 3 para assinatura anual
+            enum: [0, 1, 2]
+            example: 1
+          createdAt:
+            type: string
+            format: date-time
+            description: Data de criação do cupom.
+            example: '2025-05-25T23:43:25.250Z'
+          updatedAt:
+            type: string
+            format: date-time
+            description: Data de atualização do cupom.
+            example: '2025-05-25T23:43:25.250Z'
+          

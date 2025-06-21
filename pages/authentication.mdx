@@ -1,0 +1,47 @@
+---
+title: "Autenticação"
+description: "Como enviar requisições para a nossa API"
+icon: "lock"
+---
+
+<Tip>
+  **Token da API**: Sua credencial de acesso à API da Unicornify. Esta chave
+  identifica sua conta e autoriza suas requisições.
+</Tip>
+
+## Obter seu Token
+
+<Steps>
+  <Step title="Acesse a dashboard da Unicornify">
+    <Card>Dashboard Unicornify (https://app.unicornify.com.br)</Card>
+  </Step>
+  <Step title="Clique em API">
+    <Card>
+      Na dashboard, clique na logo de usuário e depois em API
+      <img src="/images/dashboard.png" alt="Dashboard Unicornify" />
+    </Card>
+  </Step>
+  <Step title="Copie seu Token">
+    <Card>
+      Copie seu token. Você a usará para autenticar suas requisições.
+      <img src="/images/api-page.png" alt="Pagina de token da Unicornify" />
+    </Card>
+  </Step>
+</Steps>
+
+## Como usar seu token
+
+Após obter seu token, você pode começar a integrar com nossa API. Lembre-se de incluir o token em todas as requisições em Query Parameters usando `api_token`:
+
+Adicione o token como um parâmetro de query string na requisição requisições:
+
+```bash
+?api_token=seu_token'
+```
+
+## Exemplo de requisição
+
+```bash
+curl --location 'https://api.unicornify.com.br/api/public/v1/products?api_token=seu_token' \
+--header 'Accept: application/json'
+```

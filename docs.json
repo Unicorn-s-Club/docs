@@ -1,68 +1,38 @@
 {
   "$schema": "https://mintlify.com/docs.json",
   "theme": "mint",
-  "name": "Unicornify",
+  "name": "Uniconify",
   "colors": {
-    "primary": "#FA6B28",
-    "light": "#891FB7",
-    "dark": "#4701AC"
+    "primary": "#4701AC",
+    "light": "#5433FF",
+    "dark": "#5433FF"
   },
-  "favicon": "/favicon.svg",
+  "favicon": "/favicon.ico",
+  "api": {
+    "mdx": {
+      "server": "https://api.unicornify.com.br/api"
+    }
+  },
   "navigation": {
     "tabs": [
       {
-        "tab": "Guides",
+        "tab": "Documentação",
         "groups": [
           {
-            "group": "Get Started",
-            "pages": ["index", "quickstart", "development"]
-          },
-          {
-            "group": "Essentials",
+            "group": "Introdução",
             "pages": [
-              "essentials/markdown",
-              "essentials/code",
-              "essentials/images",
-              "essentials/settings",
-              "essentials/navigation",
-              "essentials/reusable-snippets"
+              "pages/introduction",
+              "pages/authentication",
+              "pages/webhooks"
             ]
           }
         ]
       },
       {
-        "tab": "API Reference",
-        "groups": [
-          {
-            "group": "API Documentation",
-            "pages": ["api-reference/introduction"]
-          },
-          {
-            "group": "Endpoint Examples",
-            "pages": [
-              "api-reference/endpoint/get",
-              "api-reference/endpoint/create",
-              "api-reference/endpoint/delete",
-              "api-reference/endpoint/webhook"
-            ]
-          }
-        ]
+        "tab": "Referência da API",
+        "openapi": "openapi.yaml"
       }
-    ],
-    "global": {
-      "anchors": [
-        {
-          "anchor": "Documentation",
-          "href": "https://mintlify.com/docs",
-          "icon": "book-open-cover"
-        },
-        {
-          "anchor": "Community",
-          "href": "https://discord.gg/dCGm62tEzc",
-          "icon": "discord"
-        }
-      ]
-    }
+    ]
   },
   "logo": {
     "light": "/logo/light.svg",
@@ -71,21 +41,21 @@
   "navbar": {
     "links": [
       {
-        "label": "Support",
-        "href": "mailto:hi@mintlify.com"
+        "label": "Repositorio",
+        "href": "https://github.com/Unicorn-s-Club/docs"
       }
     ],
     "primary": {
       "type": "button",
       "label": "Dashboard",
-      "href": "https://dashboard.mintlify.com"
+      "href": "https://app.unicornify.com.br/"
     }
   },
   "footer": {
     "socials": {
-      "x": "https://x.com/mintlify",
-      "instagram": "https://www.instagram.com/unicornifybr?igsh=amx5eGJhd3lhYWNp",
-      "github": "https://github.com/Unicorn-s-Club/docs"
+      "discord": "https://discord.gg/dCGm62tEzc",
+      "github": "https://github.com/Unicorn-s-Club",
+      "instagram": "https://www.instagram.com/unicornifybr?igsh=amx5eGJhd3lhYWNp"
     }
   }
 }
