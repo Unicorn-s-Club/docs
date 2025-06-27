@@ -204,8 +204,137 @@ paths:
             schema:
               type: object
               properties:
-                data:
-                  $ref: '#/components/schemas/Produto'
+                amount:
+                  type: number
+                  description: Valor total da transação em centavos.
+                  example: 500
+                offer_hash:
+                  type: string
+                  description: Hash de uma oferta.
+                  example: "s7b5e"
+                payment_method:
+                  type: string
+                  description: Método de pagamento (credit_card, billet, pix).
+                  enum: [credit_card, billet, pix]
+                  example: "pix"
+                card:
+                  type: object
+                  description: Dados do cartão de crédito (obrigatório se payment_method for credit_card).
+                  properties:
+                    number:
+                      type: string
+                      example: "4111 1111 1111 1111"
+                    holder_name:
+                      type: string
+                      example: "Teste Holder name"
+                    exp_month:
+                      type: integer
+                      example: 12
+                    exp_year:
+                      type: integer
+                      example: 2025
+                    cvv:
+                      type: string
+                      example: "123"
+                customer:
+                  type: object
+                  description: Dados do cliente.
+                  properties:
+                    name:
+                      type: string
+                      example: "Customer name"
+                    email:
+                      type: string
+                      example: "email@email.com"
+                    phone_number:
+                      type: string
+                      example: "21975784612"
+                    document:
+                      type: string
+                      example: "09115751031"
+                    street_name:
+                      type: string
+                      example: "Nome da Rua"
+                    number:
+                      type: string
+                      example: "sn"
+                    complement:
+                      type: string
+                      example: "Lt19 Qd 134"
+                    neighborhood:
+                      type: string
+                      example: "Centro"
+                    city:
+                      type: string
+                      example: "Itaguaí"
+                    state:
+                      type: string
+                      example: "RJ"
+                    zip_code:
+                      type: string
+                      example: "23822180"
+                cart:
+                  type: array
+                  description: Lista de produtos no carrinho.
+                  items:
+                    type: object
+                    properties:
+                      product_hash:
+                        type: string
+                        example: "so4neitign"
+                      title:
+                        type: string
+                        example: "Produto Teste API Publica"
+                      cover:
+                        type: string
+                        nullable: true
+                        example: null
+                      price:
+                        type: number
+                        example: 10000
+                      quantity:
+                        type: integer
+                        example: 2
+                      operation_type:
+                        type: integer
+                        example: 1
+                      tangible:
+                        type: boolean
+                        example: false
+                installments:
+                  type: integer
+                  description: Número de parcelas.
+                  example: 1
+                expire_in_days:
+                  type: integer
+                  description: Dias para expiração do pagamento.
+                  example: 1
+                postback_url:
+                  type: string
+                  description: URL para receber atualização das transações.
+                  example: ""
+                tracking:
+                  type: object
+                  description: Dados de rastreamento de campanha.
+                  properties:
+                    src:
+                      type: string
+                      example: ""
+                    utm_source:
+                      type: string
+                      example: ""
+                    utm_medium:
+                      type: string
+                      example: ""
+                    utm_campaign:
+                      type: string
+                      example: ""
+                    utm_term:
+                      type: string
+                      example: ""
+                    utm_content:
+                      type: string
+                      example: ""
     get:
       summary: Listar transações
       description: Lista todas as transações feitas.
