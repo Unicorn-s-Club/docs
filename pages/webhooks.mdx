@@ -4,6 +4,17 @@ description: "Configure e receba notificações sobre atualizações"
 icon: "webhook"
 ---
 
+<Tip>
+  Os webhooks enviam uma requisição POST com informações sobre cada pedido. O
+  seu sistema deve retornar uma resposta 2xx confirmando o recebimento. Caso
+  contrário, o webhook será reenviado até 5 vezes.
+</Tip>
+
+<Tip>
+  Todos os valores financeiros são enviados como INTEGER em centavos, ou seja,
+  11094 significa R$ 110,94
+</Tip>
+
 ## Cadastre seu Webhook
 
 <Steps>
@@ -23,3 +34,88 @@ icon: "webhook"
     </Card>
   </Step>
 </Steps>
+
+## Resposta do webhook
+
+```JSON
+{
+  "token": "hoksci06dl",
+  "event": "transaction",
+  "created_at": "2020-09-26T05:53:26-0300",
+  "paid_at": "1974-06-25T09:49:51-0300",
+  "refund_at": "2022-02-03T09:30:52-0300",
+  "platform": "Unicornify",
+  "status": "paid",
+  "method": "pix",
+  "customer": {
+    "id": "u8udixh44j",
+    "name": "Sr. Moisés Caldeira Mascarenhas",
+    "email": "wesley.leon@r7.com",
+    "phone": "(69) 3488-9955",
+    "phone_number": "(86) 3524-5039",
+    "document": "94414274117"
+  },
+  "transaction": {
+    "id": "fa2c5ls3f8",
+    "status": "paid",
+    "method": "pix",
+    "amount": 10000,
+    "url": "http://www.test.com.br/dignissimos-in-qui-nesciunt-facilis-voluptatibus-culpa.html",
+    "billet": {
+      "url": null,
+      "barcode": "00190500954014481606906809350314337370000000100",
+      "expires_at": null
+    },
+    "pix": {
+      "code": "00020126580014br.gov.bcb.pix0136123e4567-e12b-12d1-a456-426655440000 5204000053039865802BR5913Fulano de Tal6008BRASILIA62070503***63041D3D",
+      "url": "http://www.test.net.br/corrupti-est-voluptatibus-vel",
+      "expires_at": null
+    }
+  },
+  "offer": {
+    "hash": "t6o1r",
+    "title": "est",
+    "price": 10000
+  },
+  "items": [
+    {
+      "hash": "xsxj6u6r37",
+      "product_hash": "ew4w22qluu",
+      "title": "Quasi autem id placeat reprehenderit provident.",
+      "price": 10000,
+      "quantity": 6,
+      "cover": "https://via.test.com/640x480.png/005555?text=ipsa",
+      "operation_type": 1
+    }
+  ],
+  "tracking": {
+    "src": "lyei3",
+    "utm_source": "animi",
+    "utm_campaign": "qui",
+    "utm_medium": "illo",
+    "utm_term": "voluptatem",
+    "utm_content": "ut"
+  }
+}
+```
+
+### Status do pagamento
+
+| Status          | Description                        |
+| --------------- | ---------------------------------- |
+| processing      | Pagamento em processamento         |
+| authorized      | Pagamento autorizado na adquirente |
+| paid            | Pagamento realizado                |
+| refunded        | Reembolsado                        |
+| waiting_payment | Aguardando pagamento               |
+| refused         | Pagamento recusado                 |
+| antifraud       | Reprovado pelo antifraude          |
+| chargedback     | chargedback                        |
+
+### Métodos de pagamento
+
+| Status      | Description       |
+| ----------- | ----------------- |
+| credit_card | Cartão de crédito |
+| billet      | Boleto bancário   |
+| pix         | Pix               |
